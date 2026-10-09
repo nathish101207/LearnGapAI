@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Learning Gap Analysis - LearnGap AI</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #172554,
+                    #070b14 45%
+                );
+
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            background: rgba(7, 11, 20, 0.85);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        nav {
+            display: flex;
+            gap: 22px;
+        }
+
+        nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 45px auto;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .hero-icon {
+            font-size: 50px;
+            margin-bottom: 12px;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: #94a3b8;
+            font-size: 16px;
+        }
+
+        /* =========================
+           OVERALL SCORE
+        ========================= */
+
+        .overall-card {
+            background: rgba(15, 23, 42, 0.88);
+
+            border: 1px solid rgba(255,255,255,0.08);
+
+            border-radius: 20px;
+
+            padding: 30px;
+
+            text-align: center;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 15px 40px rgba(0,0,0,0.25);
+        }
+
+        .overall-card h2 {
+            margin-bottom: 15px;
+        }
+
+        .score {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .score-label {
+            color: #94a3b8;
+        }
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .section {
+            background: rgba(15, 23, 42, 0.82);
+
+            border: 1px solid rgba(255,255,255,0.08);
+
+            border-radius: 20px;
+
+            padding: 28px;
+
+            margin-bottom: 25px;
+        }
+
+        .section h2 {
+            margin-bottom: 8px;
+        }
+
+        .section-description {
+            color: #94a3b8;
+            margin-bottom: 22px;
+        }
+
+        /* =========================
+           TOPIC CARDS
+        ========================= */
+
+        .topic-card {
+            background: rgba(30, 41, 59, 0.8);
+
+            border: 1px solid rgba(255,255,255,0.07);
+
+            border-radius: 15px;
+
+            padding: 20px;
+
+            margin-bottom: 15px;
+        }
+
+        .topic-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 12px;
+        }
+
+        .topic-name {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .topic-score {
+            color: #cbd5e1;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+
+            background: #1e293b;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+
+            border-radius: 20px;
+
+            background: linear-gradient(
+                90deg,
+                #2563eb,
+                #7c3aed
+            );
+        }
+
+        .status {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        /* =========================
+           LEARNING GAP
+        ========================= */
+
+        .gap-card {
+            background: rgba(30, 41, 59, 0.8);
+
+            border-left: 4px solid #7c3aed;
+
+            border-radius: 12px;
+
+            padding: 20px;
+
+            margin-bottom: 15px;
+        }
+
+        .gap-card h3 {
+            margin-bottom: 8px;
+        }
+
+        .gap-card p {
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           MISTAKES
+        ========================= */
+
+        .mistake-card {
+            background: rgba(30, 41, 59, 0.75);
+
+            border-radius: 12px;
+
+            padding: 20px;
+
+            margin-bottom: 15px;
+        }
+
+        .mistake-card h3 {
+            margin-bottom: 12px;
+        }
+
+        .mistake-card p {
+            color: #cbd5e1;
+            margin: 6px 0;
+        }
+
+        .wrong {
+            color: #f87171;
+        }
+
+        .correct {
+            color: #4ade80;
+        }
+
+        /* =========================
+           NO GAPS
+        ========================= */
+
+        .success-card {
+            text-align: center;
+
+            background: rgba(22, 101, 52, 0.18);
+
+            border: 1px solid rgba(74, 222, 128, 0.25);
+
+            border-radius: 15px;
+
+            padding: 30px;
+        }
+
+        .success-card h2 {
+            margin-bottom: 10px;
+        }
+
+        .success-card p {
+            color: #bbf7d0;
+        }
+
+        /* =========================
+           ACTION BUTTONS
+        ========================= */
+
+        .actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .button {
+            display: inline-block;
+
+            padding: 13px 24px;
+
+            margin: 6px;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            background: linear-gradient(
+                135deg,
+                #2563eb,
+                #7c3aed
+            );
+
+            color: white;
+
+            transition: 0.2s;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        .secondary {
+            background: #1e293b;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            text-align: center;
+
+            padding: 35px 10px;
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 0 20px;
+            }
+
+            nav {
+                gap: 10px;
+            }
+
+            nav a {
+                font-size: 12px;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .score {
+                font-size: 40px;
+            }
+
+            .topic-header {
+                flex-direction: column;
+                align-items: flex-start;
+
+                gap: 6px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header>
+
+        <div class="logo">
+            🧠 LearnGap AI
+        </div>
+
+        <nav>
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/dashboard">
+                Dashboard
+            </a>
+
+            <a href="/quiz">
+                Diagnostic
+            </a>
+
+            <a href="/practice">
+                Practice
+            </a>
+
+            <a href="/retest">
+                Retest
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <div class="container">
+
+
+        <!-- HERO -->
+
+        <div class="hero">
+
+            <div class="hero-icon">
+                🔍
+            </div>
+
+            <h1>
+                Learning Gap Analysis
+            </h1>
+
+            <p>
+                LearnGap AI analyzed your diagnostic answers
+                to identify topics that may need more practice.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             OVERALL SCORE
+        ========================= -->
+
+        <div class="overall-card">
+
+            <h2>
+                📊 Overall Diagnostic Performance
+            </h2>
+
+            <div class="score">
+
+                {{ diagnostic_percentage | round(0) }}%
+
+            </div>
+
+            <div class="score-label">
+
+                Your diagnostic test performance
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             TOPIC PERFORMANCE
+        ========================= -->
+
+        <div class="section">
+
+            <h2>
+                📚 Topic-wise Performance
+            </h2>
+
+            <p class="section-description">
+                Your performance in each tested Python topic.
+            </p>
+
+
+            {% if topic_scores %}
+
+                {% for topic, result in topic_scores.items() %}
+
+                    {% set percentage =
+                        (result.correct / result.total * 100)
+                        if result.total > 0 else 0
+                    %}
+
+
+                    <div class="topic-card">
+
+                        <div class="topic-header">
+
+                            <div class="topic-name">
+                                {{ topic }}
+                            </div>
+
+                            <div class="topic-score">
+
+                                {{ result.correct }}
+                                /
+                                {{ result.total }}
+
+                                ({{ percentage | round(0) }}%)
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="progress-bar">
+
+                            <div
+                                class="progress-fill"
+                                style="width: {{ percentage }}%;">
+                            </div>
+
+                        </div>
+
+
+                        {% if percentage < 70 %}
+
+                            <div class="status">
+                                ⚠️ More practice recommended
+                            </div>
+
+                        {% else %}
+
+                            <div class="status">
+                                ✅ Current performance is satisfactory
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>
+                    No diagnostic data available yet.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =========================
+             LEARNING GAPS
+        ========================= -->
+
+        <div class="section">
+
+            <h2>
+                🧠 Detected Learning Gaps
+            </h2>
+
+            <p class="section-description">
+                These are possible areas where your answers
+                suggest you may need additional practice.
+            </p>
+
+
+            {% if weak_topics %}
+
+                {% for topic in weak_topics %}
+
+                    <div class="gap-card">
+
+                        <h3>
+                            🎯 {{ topic }}
+                        </h3>
+
+                        <p>
+
+                            {{ gap_explanations[topic] }}
+
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="success-card">
+
+                    <h2>
+                        🎉 No Major Learning Gaps Detected
+                    </h2>
+
+                    <p>
+                        Your diagnostic performance is currently
+                        strong across the tested topics.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =========================
+             MISTAKE ANALYSIS
+        ========================= -->
+
+        {% if mistake_analysis %}
+
+        <div class="section">
+
+            <h2>
+                🔍 Mistake Analysis
+            </h2>
+
+            <p class="section-description">
+                Review the questions that were answered incorrectly.
+            </p>
+
+
+            {% for mistake in mistake_analysis %}
+
+                <div class="mistake-card">
+
+                    <h3>
+                        ❌ {{ mistake.question }}
+                    </h3>
+
+                    <p>
+                        <b>Topic:</b>
+                        {{ mistake.topic }}
+                    </p>
+
+                    {% if mistake.concept %}
+
+                    <p>
+                        <b>Concept:</b>
+                        {{ mistake.concept }}
+                    </p>
+
+                    {% endif %}
+
+                    <p class="wrong">
+
+                        <b>Your Answer:</b>
+                        {{ mistake.user_answer }}
+
+                    </p>
+
+                    <p class="correct">
+
+                        <b>Correct Answer:</b>
+                        {{ mistake.correct_answer }}
+
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- =========================
+             ACTIONS
+        ========================= -->
+
+        <div class="actions">
+
+            {% if weak_topics %}
+
+                <a
+                    href="/practice"
+                    class="button">
+
+                    💻 Practice Weak Topics →
+
+                </a>
+
+            {% endif %}
+
+
+            <a
+                href="/dashboard"
+                class="button secondary">
+
+                📊 Back to Dashboard
+
+            </a>
+
+
+            <a
+                href="/quiz"
+                class="button secondary">
+
+                📝 Retake Diagnostic
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer>
+
+        <p>
+            LearnGap AI © 2026
+        </p>
+
+        <p>
+            Learn → Practice → Retest → Improve 🚀
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>

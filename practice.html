@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+```
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Adaptive Practice - LearnGap AI</title>
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}">
+```
+
+</head>
+
+<body>
+
+<header>
+
+```
+<div class="logo">
+    LearnGap AI
+</div>
+
+<nav>
+    <a href="/">Home</a>
+    <a href="/dashboard">Dashboard</a>
+</nav>
+```
+
+</header>
+
+<div class="container">
+
+```
+<h1>💻 Adaptive Practice</h1>
+
+<p>
+    LearnGap AI has selected practice questions
+    based on your learning gaps.
+</p>
+
+
+<!-- =================================================
+     WEAK TOPICS
+================================================== -->
+
+<div class="question">
+
+    <h2>🎯 Your Focus Topics</h2>
+
+    {% if weak_topics %}
+
+        {% for topic in weak_topics %}
+
+            <p>
+                🔴 {{ topic }}
+            </p>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>
+            🎉 No weak topics detected.
+            You can practice all topics.
+        </p>
+
+    {% endif %}
+
+</div>
+
+
+<!-- =================================================
+     PRACTICE QUESTIONS
+================================================== -->
+
+<form action="/practice-result"
+      method="POST">
+
+
+    {% set question_number = namespace(value=1) %}
+
+
+    {% for topic, questions in practice_questions.items() %}
+
+
+        <div class="question">
+
+            <h2>
+                📚 {{ topic }}
+            </h2>
+
+            <p>
+                Practice questions for this topic
+            </p>
+
+        </div>
+
+
+        {% for q in questions %}
+
+            <div class="question">
+
+                <h3>
+                    Question {{ question_number.value }}
+                </h3>
+
+                <p>
+                    <b>{{ q.question }}</b>
+                </p>
+
+
+                {% for option in q.options %}
+
+                    <label style="
+                        display: block;
+                        margin: 12px 0;
+                    ">
+
+                        <input
+                            type="radio"
+                            name="p{{ question_number.value }}"
+                            value="{{ option }}"
+                            required
+                        >
+
+                        {{ option }}
+
+                    </label>
+
+                {% endfor %}
+
+            </div>
+
+
+            {% set question_number.value =
+                question_number.value + 1 %}
+
+        {% endfor %}
+
+
+    {% endfor %}
+
+
+    <!-- =================================================
+         SUBMIT
+    ================================================== -->
+
+    <div style="margin-top: 30px;">
+
+        <button type="submit"
+                class="button">
+
+            📊 Submit Practice
+
+        </button>
+
+    </div>
+
+</form>
+
+
+<!-- =================================================
+     LEARNING PATH
+================================================== -->
+
+<div class="question">
+
+    <h2>🛤️ Your Adaptive Learning Path</h2>
+
+    <p>
+        🔍 Diagnostic Test
+    </p>
+
+    <p>↓</p>
+
+    <p>
+        🧠 Learning Gap Analysis
+    </p>
+
+    <p>↓</p>
+
+    <p>
+        💻 Targeted Practice
+    </p>
+
+    <p>↓</p>
+
+    <p>
+        📊 Practice Result
+    </p>
+
+    <p>↓</p>
+
+    <p>
+        🔄 Retest
+    </p>
+
+    <p>↓</p>
+
+    <p>
+        🚀 Topic Completion
+    </p>
+
+</div>
+
+
+<!-- =================================================
+     DASHBOARD
+================================================== -->
+
+<div style="margin-top: 25px;">
+
+    <a href="/dashboard"
+       class="button secondary-button">
+
+        📊 Back to Dashboard
+
+    </a>
+
+</div>
+```
+
+</div>
+
+<footer>
+
+```
+<p>
+    LearnGap AI © 2026
+</p>
+
+<p>
+    Learn → Analyze → Practice → Retest → Improve 🚀
+</p>
+```
+
+</footer>
+
+</body>
+
+</html>

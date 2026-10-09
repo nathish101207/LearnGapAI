@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - LearnGap AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        body {
+            background:
+                radial-gradient(circle at top left, #18233f 0%, #070b14 45%, #05070d 100%);
+        }
+
+        .dashboard-container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 40px 20px 60px;
+        }
+
+        .hero {
+            background: rgba(20, 28, 48, 0.85);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 22px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: #aeb8cc;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: rgba(20, 28, 48, 0.85);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            padding: 22px;
+        }
+
+        .stat-card h3 {
+            font-size: 15px;
+            color: #aeb8cc;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .section {
+            background: rgba(20, 28, 48, 0.85);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .section h2 {
+            margin-bottom: 8px;
+        }
+
+        .section-description {
+            color: #9da8bc;
+            margin-bottom: 22px;
+        }
+
+        .progress-item {
+            margin-bottom: 22px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .progress-header span:last-child {
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #20283a;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #4f8cff, #8b5cf6);
+        }
+
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .topic-card {
+            background: rgba(10, 16, 29, 0.8);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .topic-card h3 {
+            margin-bottom: 15px;
+        }
+
+        .topic-score {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .weak {
+            border-left: 4px solid #ffb020;
+        }
+
+        .good {
+            border-left: 4px solid #42d392;
+        }
+
+        .journey {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .journey-step {
+            background: rgba(10, 16, 29, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .journey-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .journey-step h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .journey-step p {
+            color: #9da8bc;
+            font-size: 14px;
+        }
+
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .achievement-card {
+            background: rgba(10, 16, 29, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .achievement-card h3 {
+            margin-bottom: 8px;
+        }
+
+        .achievement-card p {
+            color: #9da8bc;
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .dashboard-button {
+            display: inline-block;
+            padding: 12px 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            background: linear-gradient(90deg, #4f8cff, #7c5cff);
+            color: white;
+            font-weight: bold;
+        }
+
+        .secondary-button {
+            background: #20283a;
+        }
+
+        .empty-message {
+            color: #9da8bc;
+            padding: 15px 0;
+        }
+
+        @media (max-width: 900px) {
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .topic-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .journey {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .achievement-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .journey {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 22px;
+            }
+
+            .section {
+                padding: 20px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        LearnGap AI
+    </div>
+
+    <nav>
+
+        <a href="/">Home</a>
+
+        <a href="/quiz">Diagnostic</a>
+
+        <a href="/practice">Practice</a>
+
+        <a href="/retest">Retest</a>
+
+        <a href="/dashboard">Dashboard</a>
+
+    </nav>
+
+</header>
+
+
+
+<div class="dashboard-container">
+
+
+    <!-- ========================= -->
+    <!-- HERO -->
+    <!-- ========================= -->
+
+    <div class="hero">
+
+        <h1>
+            👋 Welcome, {{ name }}!
+        </h1>
+
+        <p>
+            Track your learning progress, identify weak topics
+            and improve your Python skills step by step.
+        </p>
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- QUICK STATS -->
+    <!-- ========================= -->
+
+    <div class="stats-grid">
+
+
+        <div class="stat-card">
+
+            <h3>📝 Diagnostic</h3>
+
+            <div class="stat-value">
+                {{ diagnostic_percentage | round(0) }}%
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>💻 Practice</h3>
+
+            <div class="stat-value">
+                {{ practice_percentage | round(0) }}%
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>🔄 Retest</h3>
+
+            <div class="stat-value">
+                {{ retest_percentage | round(0) }}%
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>🔥 Streak</h3>
+
+            <div class="stat-value">
+                {{ streak }} day(s)
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- XP -->
+    <!-- ========================= -->
+
+    <div class="section">
+
+        <h2>⭐ XP & Level</h2>
+
+        <p class="section-description">
+            Keep learning to earn XP and increase your level.
+        </p>
+
+
+        <h3>
+            🏆 Level {{ level }}
+        </h3>
+
+        <p>
+            Total XP: <strong>{{ xp }}</strong>
+        </p>
+
+
+        <div class="progress-bar">
+
+            <div
+                class="progress-fill"
+                style="width: {{ level_xp }}%;">
+            </div>
+
+        </div>
+
+
+        <p style="margin-top: 8px;">
+            {{ level_xp }} / 100 XP toward next level
+        </p>
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- LEARNING PROGRESS -->
+    <!-- ========================= -->
+
+    <div class="section">
+
+        <h2>📈 Learning Progress</h2>
+
+        <p class="section-description">
+            Compare your performance throughout the learning process.
+        </p>
+
+
+        <!-- Diagnostic -->
+
+        <div class="progress-item">
+
+            <div class="progress-header">
+
+                <span>📝 Diagnostic Test</span>
+
+                <span>
+                    {{ diagnostic_percentage | round(0) }}%
+                </span>
+
+            </div>
+
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    style="width: {{ diagnostic_percentage }}%;">
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Practice -->
+
+        <div class="progress-item">
+
+            <div class="progress-header">
+
+                <span>💻 Practice</span>
+
+                <span>
+                    {{ practice_percentage | round(0) }}%
+                </span>
+
+            </div>
+
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    style="width: {{ practice_percentage }}%;">
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Retest -->
+
+        <div class="progress-item">
+
+            <div class="progress-header">
+
+                <span>🔄 Retest</span>
+
+                <span>
+                    {{ retest_percentage | round(0) }}%
+                </span>
+
+            </div>
+
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    style="width: {{ retest_percentage }}%;">
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Improvement -->
+
+        <div class="progress-item">
+
+            <div class="progress-header">
+
+                <span>📈 Improvement</span>
+
+                <span>
+
+                    {% if improvement > 0 %}
+                        +{{ improvement | round(0) }}%
+                    {% elif improvement == 0 %}
+                        0%
+                    {% else %}
+                        {{ improvement | round(0) }}%
+                    {% endif %}
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- TOPIC-WISE PROGRESS -->
+    <!-- ========================= -->
+
+    <div class="section">
+
+        <h2>📚 Topic-wise Progress</h2>
+
+        <p class="section-description">
+            See which Python topics need more attention.
+        </p>
+
+
+        {% if topic_scores %}
+
+        <div class="topic-grid">
+
+            {% for topic, result in topic_scores.items() %}
+
+                {% set percentage =
+                    (result.correct / result.total * 100)
+                    if result.total > 0 else 0
+                %}
+
+
+                <div class="topic-card
+                    {% if percentage < 70 %}
+                        weak
+                    {% else %}
+                        good
+                    {% endif %}">
+
+                    <h3>
+                        📌 {{ topic }}
+                    </h3>
+
+
+                    <div class="topic-score">
+
+                        {{ percentage | round(0) }}%
+
+                    </div>
+
+
+                    <div class="progress-bar">
+
+                        <div
+                            class="progress-fill"
+                            style="width: {{ percentage }}%;">
+                        </div>
+
+                    </div>
+
+
+                    <p style="margin-top: 10px;">
+
+                        {{ result.correct }}
+                        /
+                        {{ result.total }}
+                        correct
+
+                    </p>
+
+
+                    {% if percentage < 70 %}
+
+                        <p>
+                            ⚠️ Needs more practice
+                        </p>
+
+                    {% else %}
+
+                        <p>
+                            ✅ Good progress
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+            <p class="empty-message">
+                Complete the diagnostic test to see topic-wise progress.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- CURRENT WEAK TOPICS -->
+    <!-- ========================= -->
+
+    <div class="section">
+
+        <h2>🎯 Topics to Improve</h2>
+
+        <p class="section-description">
+            These topics were identified from your diagnostic test.
+        </p>
+
+
+        {% if weak_topics %}
+
+            <div class="topic-grid">
+
+                {% for topic in weak_topics %}
+
+                    <div class="topic-card weak">
+
+                        <h3>
+                            📌 {{ topic }}
+                        </h3>
+
+                        <p>
+                            This topic needs additional practice.
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div class="button-row">
+
+                <a href="/learning-gaps"
+                   class="dashboard-button">
+
+                    🔍 View Learning Gaps
+
+                </a>
+
+
+                <a href="/practice"
+                   class="dashboard-button">
+
+                    💻 Practice Now
+
+                </a>
+
+            </div>
+
+        {% else %}
+
+            <p class="empty-message">
+                🎉 No major learning gaps are currently listed.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- LEARNING JOURNEY -->
+    <!-- ========================= -->
+
+    <div class="section">
+
+        <h2>🛤️ Your Learning Journey</h2>
+
+        <p class="section-description">
+            Follow the complete LearnGap AI learning cycle.
+        </p>
+
+
+        <div class="journey">
+
+
+            <div class="journey-step">
+
+                <div class="journey-icon">
+                    📝
+                </div>
+
+                <h3>Diagnostic</h3>
+
+                {% if diagnostic_percentage > 0 %}
+                    <p>✅ Completed</p>
+                {% else %}
+                    <p>⏳ Not completed</p>
+                {% endif %}
+
+            </div>
+
+
+
+            <div class="journey-step">
+
+                <div class="journey-icon">
+                    🔍
+                </div>
+
+                <h3>Gap Analysis</h3>
+
+                {% if weak_topics %}
+                    <p>
+                        🎯 {{ weak_topics | length }} gap(s) found
+                    </p>
+                {% else %}
+                    <p>⏳ Waiting for analysis</p>
+                {% endif %}
+
+            </div>
+
+
+
+            <div class="journey-step">
+
+                <div class="journey-icon">
+                    💻
+                </div>
+
+                <h3>Practice</h3>
+
+                {% if practice_percentage > 0 %}
+                    <p>✅ Completed</p>
+                {% else %}
+                    <p>⏳ Not completed</p>
+                {% endif %}
+
+            </div>
+
+
+
+            <div class="journey-step">
+
+                <div class="journey-icon">
+                    🔄
+                </div>
+
+                <h3>Retest</h3>
+
+                {% if retest_percentage > 0 %}
+                    <p>✅ Completed</p>
+                {% else %}
+                    <p>⏳ Not completed</p>
+                {% endif %}
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- ACHIEVEMENTS -->
+    <!-- ========================= -->
+
+    <div class="section">
+
+        <h2>🏆 Achievements</h2>
+
+        <p class="section-description">
+            Complete learning activities to unlock achievements.
+        </p>
+
+
+        <div class="achievement-grid">
+
+
+            {% if diagnostic_percentage > 0 %}
+
+            <div class="achievement-card">
+
+                <h3>📝 First Step</h3>
+
+                <p>
+                    Diagnostic test completed.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+
+
+            {% if practice_percentage > 0 %}
+
+            <div class="achievement-card">
+
+                <h3>💻 Practice Starter</h3>
+
+                <p>
+                    Practice session completed.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+
+
+            {% if retest_percentage > 0 %}
+
+            <div class="achievement-card">
+
+                <h3>🔄 Retest Completed</h3>
+
+                <p>
+                    You completed a retest.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+
+
+            {% if streak >= 3 %}
+
+            <div class="achievement-card">
+
+                <h3>🔥 Consistent Learner</h3>
+
+                <p>
+                    {{ streak }}-day learning streak maintained.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+
+
+            {% if xp >= 100 %}
+
+            <div class="achievement-card">
+
+                <h3>⭐ XP Collector</h3>
+
+                <p>
+                    You have earned 100+ XP.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+
+
+            {% if diagnostic_percentage >= 80 %}
+
+            <div class="achievement-card">
+
+                <h3>🧠 Strong Foundation</h3>
+
+                <p>
+                    Diagnostic score reached 80% or higher.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================= -->
+    <!-- CONTINUE LEARNING -->
+    <!-- ========================= -->
+
+    <div class="section">
+
+        <h2>🚀 Continue Learning</h2>
+
+        <p class="section-description">
+            Choose your next learning activity.
+        </p>
+
+
+        <div class="button-row">
+
+
+            <a href="/quiz"
+               class="dashboard-button">
+
+                📝 Diagnostic
+
+            </a>
+
+
+            <a href="/learning-gaps"
+               class="dashboard-button">
+
+                🔍 Analyze Gaps
+
+            </a>
+
+
+            <a href="/practice"
+               class="dashboard-button">
+
+                💻 Practice
+
+            </a>
+
+
+            <a href="/retest"
+               class="dashboard-button">
+
+                🔄 Retest
+
+            </a>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<footer>
+
+    <p>
+        LearnGap AI © 2026
+    </p>
+
+    <p>
+        Learn → Practice → Retest → Improve 🚀
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

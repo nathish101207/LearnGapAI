@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Diagnostic Test - LearnGap AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        LearnGap AI
+    </div>
+
+    <nav>
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/dashboard">
+            Dashboard
+        </a>
+
+    </nav>
+
+</header>
+
+
+<div class="container">
+
+    <h1>📝 Python Diagnostic Test</h1>
+
+    <p>
+        Answer the questions to identify your current
+        learning level and possible learning gaps.
+    </p>
+
+
+    <form action="/submit" method="POST">
+
+
+        <!-- =================================================
+             EASY
+        ================================================== -->
+
+        <div class="question">
+
+            <h2>🟢 EASY QUESTIONS</h2>
+
+            <p>
+                These questions check your basic Python knowledge.
+            </p>
+
+        </div>
+
+
+        <!-- Q1 -->
+
+        <div class="question">
+
+            <h3>Question 1</h3>
+
+            <p>
+                Which data type is used to store a whole number
+                in Python?
+            </p>
+
+            <label>
+                <input type="radio"
+                       name="q1"
+                       value="int"
+                       required>
+                int
+            </label>
+
+            <br>
+
+            <label>
+                <input type="radio"
+                       name="q1"
+                       value="float">
+                float
+            </label>
+
+            <br>
+
+            <label>
+                <input type="radio"
+                       name="q1"
+                       value="string">
+                string
+            </label>
+
+            <br>
+
+            <label>
+                <input type="radio"
+                       name="q1"
+                       value="boolean">
+                boolean
+            </label>
+
+        </div>
+
+
+        <!-- Q2 -->
+
+        <div class="question">
+
+            <h3>Question 2</h3>
+
+            <p>
+                What is the data type of the value
+                <b>25</b> in Python?
+            </p>
+
+            <label>
+                <input type="radio"
+                       name="q2"
+                       value="int"
+                       required>
+                int
+            </label>
+
+            <br>
+
+            <label>
+                <input type="radio"
+                       name="q2"
+                       value="float">
+                float
+            </label>
+
+            <br>
+
+            <label>
+                <input type="radio"
+                       name="q2"
+                       value="string">
+                string
+            </label>
+
+            <br>
+
+            <label>
+                <input type="radio"
+                       name="q2"
+                       value="boolean">
+                boolean
+            </label>
+
+        </div>
+
+
+
+        <!-- =================================================
+             MEDIUM
+        ================================================== -->
+
+        <div class="question">
+
+            <h2>🟡 MEDIUM QUESTIONS</h2>
+
+            <p>
+                These questions check your understanding
+                of Python concepts.
+            </p>
+
+        </div>
+
+
+        <!-- Q3 -->
+
+        <div class="question">
+
+            <h3>Question 3</h3>
+
+            <p>
+                Which statement is used to make a decision
+                in Python?
+            </p>
+
+            <label>
+                <input type="radio"
+                       name="q3"
+                       value="if"
+                       required>
+                if
+            </label>
+
+            <br>
+
+            <label>
+                <input type="radio"
+                       name="q3"
+                       value="for">
+                for
+            </label>
+
+            <br>
+
+            <label>
+                <input type="radio"
+                       name="q3"
+                       value="print">
+                print
+            </label>
+
+            <br>
+
+            <label>
+                <input type="radio"
+                       name="q3"
+                       value="input">
+                input
+            </label>
+
+        </div>
+
+
+        <!-- Q4 -->
+
+        <div class="question">
+
+            <h3>Question 4</h3>
+
+            <p>
+                If <b>x = 10</b>, what will this condition return?
+            </p>
+
+            <pre>x > 5</pre>
+
+            <label>
+                <input type="radio"
+                       name="q4"
+                       value="Yes"
+                       required>
+                Yes
+            </label>
+
+            <br>
+
+            <label>
+                <input type="radio"
+                       name="q4"
+                       value="No">
+                No
+            </label>
+
+        </div>
+
+
+
+        <!-- =================================================
+             HARD
+        ================================================== -->
+
+        <div class="question">
+
+            <h2>🔴 HARD QUESTIONS</h2>
+
+            <p>
+                These questions check deeper understanding
+                of Python programming.
+            </p>
+
+        </div>
+
+
+        <!-- Q5 -->
+
+        <div class="question">
+
+            <h3>Question 5</h3>
+
+            <p>
+                Which loop is commonly used to iterate through
+                a sequence in Python?
+            </p>
+
+            <label>
+                <input type="radio"
+                       name="q5"
+                       value="for"
+                       required>
+                for
+            </label>
+
+            <br>
+
+            <label>
+                <input type="radio"
+                       name="q5"
+                       value="if">
+                if
+            </label>
+
+            <br>
+
+            <label>
+                <input type="radio"
+                       name="q5"
+                       value="switch">
+                switch
+            </label>
+
+            <br>
+
+            <label>
+                <input type="radio"
+                       name="q5"
+                       value="condition">
+                condition
+            </label>
+
+        </div>
+
+
+        <!-- Q6 -->
+
+        <div class="question">
+
+            <h3>Question 6</h3>
+
+            <p>
+                What will be printed by this Python code?
+            </p>
+
+            <pre>
+for i in range(3):
+    print(i)
+            </pre>
+
+            <label>
+                <input type="radio"
+                       name="q6"
+                       value="012"
+                       required>
+                0 1 2
+            </label>
+
+            <br>
+
+            <label>
+                <input type="radio"
+                       name="q6"
+                       value="123">
+                1 2 3
+            </label>
+
+            <br>
+
+            <label>
+                <input type="radio"
+                       name="q6"
+                       value="0123">
+                0 1 2 3
+            </label>
+
+            <br>
+
+            <label>
+                <input type="radio"
+                       name="q6"
+                       value="321">
+                3 2 1
+            </label>
+
+        </div>
+
+
+
+        <!-- =================================================
+             SUBMIT
+        ================================================== -->
+
+        <div style="margin-top: 30px;">
+
+            <button type="submit"
+                    class="button">
+
+                📊 Submit Diagnostic Test
+
+            </button>
+
+        </div>
+
+    </form>
+
+
+    <!-- =================================================
+         FLOW
+    ================================================== -->
+
+    <div class="question"
+         style="margin-top: 30px;">
+
+        <h2>🛤️ Diagnostic Flow</h2>
+
+        <p>🟢 Easy</p>
+
+        <p>↓</p>
+
+        <p>🟡 Medium</p>
+
+        <p>↓</p>
+
+        <p>🔴 Hard</p>
+
+        <p>↓</p>
+
+        <p>📊 Learning Gap Report</p>
+
+        <p>↓</p>
+
+        <p>🤖 AI Learning Gap Analysis</p>
+
+        <p>↓</p>
+
+        <p>💻 Practice</p>
+
+        <p>↓</p>
+
+        <p>🔄 Retest</p>
+
+        <p>↓</p>
+
+        <p>📈 Retest Result</p>
+
+    </div>
+
+
+    <div style="margin-top: 25px;">
+
+        <a href="/dashboard"
+           class="button secondary-button">
+
+            📊 Back to Dashboard
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    <p>
+        LearnGap AI © 2026
+    </p>
+
+    <p>
+        Learn → Practice → Retest → Improve 🚀
+    </p>
+
+</footer>
+
+</body>
+
+</html>

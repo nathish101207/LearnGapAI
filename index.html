@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LearnGap AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header>
+        <div class="logo">LearnGap AI</div>
+
+        <nav>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/">Home</a>
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+            <a href="/login">Login</a>
+        </nav> 
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-text">
+                <h1>Discover Your Learning Gaps</h1>
+
+                <p>
+                    Learn Python smarter with personalized tests,
+                    video recommendations, practice questions,
+                    and progress tracking.
+                </p>
+
+                <a href="/quiz" class="button">
+                    Start Learning
+                </a>
+            </div>
+
+            <div class="hero-card">
+                <h2>🔥 Daily Learning Streak</h2>
+                <p>Complete your daily learning set.</p>
+                <strong>Start your journey today!</strong>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <h2>What LearnGap AI Offers</h2>
+
+            <div class="feature-container">
+                <div class="feature-card">
+                    <h3>🎯 Gap Detection</h3>
+                    <p>Identify the Python concepts you need to improve.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>🎥 Video Learning</h3>
+                    <p>Get learning videos based on your weak topics.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>📈 Progress Tracking</h3>
+                    <p>Measure your improvement through quizzes and retests.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <h2>Learn. Practice. Improve.</h2>
+
+            <p>
+                LearnGap AI helps students understand why they make
+                programming mistakes and guides them towards improvement.
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 LearnGap AI | Python Learning Assistant</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Analyze Learning Gaps</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        LearnGap AI
+    </div>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+    </nav>
+
+</header>
+
+
+<div class="container">
+
+    <h1>🤖 AI Learning Gap Analysis</h1>
+
+    <p>
+        Here is an analysis of the areas that may need more practice.
+    </p>
+
+
+    {% if weak_topics %}
+
+        {% for topic in weak_topics %}
+
+            <div class="question">
+
+                <h2>🎯 {{ topic }}</h2>
+
+                {% if topic in gap_explanations %}
+
+                    <p>
+                        {{ gap_explanations[topic] }}
+                    </p>
+
+                {% endif %}
+
+                {% if topic in topic_scores %}
+
+                    <p>
+                        <b>Diagnostic Score:</b>
+                        {{ topic_scores[topic]["correct"] }}
+                        /
+                        {{ topic_scores[topic]["total"] }}
+                    </p>
+
+                {% endif %}
+
+                <p>
+                    <b>Recommended Path:</b>
+                </p>
+
+                <p>
+                    📚 Learn
+                    →
+                    💻 Practice
+                    →
+                    🔄 Retest
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="question">
+
+            <h2>🎉 No Major Learning Gap Detected!</h2>
+
+            <p>
+                Your diagnostic performance is strong across
+                the tested topics.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    {% if mistake_analysis %}
+
+        <div class="question">
+
+            <h2>🔍 Mistake Analysis</h2>
+
+            {% for mistake in mistake_analysis %}
+
+                <div class="achievement">
+
+                    <h3>
+                        {{ mistake["topic"] }}
+                    </h3>
+
+                    <p>
+                        <b>Concept:</b>
+                        {{ mistake["concept"] }}
+                    </p>
+
+                    <p>
+                        <b>Your Answer:</b>
+                        {{ mistake["user_answer"] }}
+                    </p>
+
+                    <p>
+                        <b>Correct Answer:</b>
+                        {{ mistake["correct_answer"] }}
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+    <div style="margin-top: 25px;">
+
+        <a href="/practice" class="button">
+            💻 Start Practice
+        </a>
+
+        <a href="/dashboard"
+           class="button secondary-button">
+            📊 Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    <p>
+        LearnGap AI — Learn → Practice → Retest → Improve 🚀
+    </p>
+
+</footer>
+
+</body>
+
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Practice Result | LearnGap AI</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top,
+                    #172554,
+                    #070b14 55%
+                );
+
+            color: white;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: auto;
+            padding: 40px 0 60px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #aeb8cc;
+            font-size: 17px;
+        }
+
+        .result-card {
+            background: rgba(17, 24, 39, 0.92);
+            border: 1px solid #273449;
+            border-radius: 22px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+        }
+
+        .score {
+            text-align: center;
+            font-size: 52px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .percentage {
+            text-align: center;
+            font-size: 22px;
+            color: #93c5fd;
+        }
+
+        .status {
+            text-align: center;
+            margin: 25px 0;
+            font-size: 20px;
+        }
+
+        .passed {
+            color: #86efac;
+        }
+
+        .needs-practice {
+            color: #fbbf24;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .stat {
+            background: #0b1220;
+            border: 1px solid #263247;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat h3 {
+            margin: 0 0 8px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .stat p {
+            margin: 0;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .next-card {
+            text-align: center;
+            background: linear-gradient(
+                135deg,
+                #111827,
+                #172554
+            );
+            border: 1px solid #334155;
+            border-radius: 22px;
+            padding: 35px;
+            margin-bottom: 25px;
+        }
+
+        .next-card h2 {
+            margin-top: 0;
+        }
+
+        .next-topic {
+            font-size: 24px;
+            font-weight: bold;
+            color: #93c5fd;
+            margin: 15px 0 25px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 14px 25px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: white;
+            background: #2563eb;
+            font-weight: bold;
+            margin: 6px;
+        }
+
+        .button:hover {
+            opacity: 0.85;
+        }
+
+        .secondary {
+            background: #334155;
+        }
+
+        .complete {
+            text-align: center;
+            background: #0f2a1d;
+            border: 1px solid #285c3d;
+            border-radius: 22px;
+            padding: 35px;
+            margin-bottom: 25px;
+        }
+
+        .complete h2 {
+            color: #86efac;
+        }
+
+        .complete p {
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        .mistakes {
+            margin-top: 25px;
+        }
+
+        .mistake {
+            background: #0b1220;
+            border: 1px solid #293548;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 12px;
+        }
+
+        .mistake strong {
+            color: #fbbf24;
+        }
+
+        .correct {
+            color: #86efac;
+        }
+
+        .wrong {
+            color: #fca5a5;
+        }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 700px) {
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .result-card,
+            .next-card,
+            .complete {
+                padding: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>📝 Practice Result</h1>
+
+        <p>
+            See your performance and continue your learning journey.
+        </p>
+
+    </div>
+
+
+    <!-- SCORE -->
+
+    <div class="result-card">
+
+        {% if current_topic %}
+
+            <h2 style="text-align:center;">
+                📚 {{ current_topic }}
+            </h2>
+
+        {% endif %}
+
+
+        <div class="score">
+
+            {{ score }} / {{ total }}
+
+        </div>
+
+
+        <div class="percentage">
+
+            {{ practice_percentage | round(0) }}%
+
+        </div>
+
+
+        {% if topic_passed %}
+
+            <div class="status passed">
+
+                ✅ Topic Practice Completed!
+
+            </div>
+
+        {% else %}
+
+            <div class="status needs-practice">
+
+                📚 More Practice Recommended
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+
+            <div class="stat">
+
+                <h3>XP Earned</h3>
+
+                <p>
+                    +{{ earned_xp }}
+                </p>
+
+            </div>
+
+
+            <div class="stat">
+
+                <h3>Total XP</h3>
+
+                <p>
+                    {{ xp }}
+                </p>
+
+            </div>
+
+
+            <div class="stat">
+
+                <h3>Level</h3>
+
+                <p>
+                    {{ level }}
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- NEXT TOPIC -->
+
+    {% if next_topic %}
+
+        <div class="next-card">
+
+            <h2>
+                🚀 Next Learning Topic
+            </h2>
+
+            <p>
+                Great! You completed the current practice topic.
+                Continue with your next identified learning gap.
+            </p>
+
+            <div class="next-topic">
+
+                {{ next_topic }}
+
+            </div>
+
+
+            <a href="/practice"
+               class="button">
+
+                Continue Practice →
+
+            </a>
+
+        </div>
+
+
+    {% else %}
+
+        <div class="complete">
+
+            <h2>
+                🎉 All Practice Topics Completed!
+            </h2>
+
+            <p>
+                You have completed practice for all the
+                currently identified weak topics.
+            </p>
+
+            <a href="/retest"
+               class="button">
+
+                🔄 Take Retest
+
+            </a>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- MISTAKES -->
+
+    {% if mistakes %}
+
+        <div class="result-card">
+
+            <h2>
+                🔍 Review Your Mistakes
+            </h2>
+
+            <p style="color:#94a3b8;">
+                Reviewing mistakes can help you understand
+                the concepts you need to improve.
+            </p>
+
+
+            <div class="mistakes">
+
+                {% for mistake in mistakes %}
+
+                    <div class="mistake">
+
+                        <p>
+                            <strong>
+                                Question:
+                            </strong>
+
+                            {{ mistake.question }}
+                        </p>
+
+
+                        <p>
+
+                            <span class="wrong">
+                                Your answer:
+                            </span>
+
+                            {{ mistake.user_answer }}
+
+                        </p>
+
+
+                        <p>
+
+                            <span class="correct">
+                                Correct answer:
+                            </span>
+
+                            {{ mistake.correct_answer }}
+
+                        </p>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- NAVIGATION -->
+
+    <div style="text-align:center;">
+
+        <a href="/learning-gaps"
+           class="button secondary">
+
+            🔍 Learning Gaps
+
+        </a>
+
+
+        <a href="/dashboard"
+           class="button secondary">
+
+            🏠 Dashboard
+
+        </a>
+
+    </div>
+
+
+    <footer>
+
+        <p>
+            LearnGap AI © 2026
+        </p>
+
+        <p>
+            Learn → Practice → Improve 🚀
+        </p>
+
+    </footer>
+
+
+</div>
+
+</body>
+
+</html>

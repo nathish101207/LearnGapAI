@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Learning Gap Report</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📊 Your Learning Gap Report</h1>
+
+
+    <!-- SCORE -->
+
+    <div class="question">
+
+        <h2>📝 Diagnostic Score</h2>
+
+        <h1>{{ score }} / {{ total }}</h1>
+
+    </div>
+
+
+    <!-- STREAK -->
+
+    <div class="question">
+
+        <h3>🔥 Current Learning Streak</h3>
+
+        <p>{{ streak }} day(s)</p>
+
+        <p>
+            Complete your learning set every day
+            to build your streak!
+        </p>
+
+    </div>
+
+
+    <!-- TOPIC ANALYSIS -->
+
+    {% if topic_scores %}
+
+        <h2>📊 Topic Analysis</h2>
+
+        {% for topic, result in topic_scores.items() %}
+
+            <div class="question">
+
+                <h3>🎯 {{ topic }}</h3>
+
+                <p>
+                    Score:
+                    {{ result.correct }} /
+                    {{ result.total }}
+                </p>
+
+
+                {% if result.correct == result.total %}
+
+                    <p>✅ Strong understanding</p>
+
+                {% elif result.correct > 0 %}
+
+                    <p>⚠️ Needs more practice</p>
+
+                {% else %}
+
+                    <p>❌ Learning gap detected</p>
+
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+ <!-- ========================= -->
+<!-- MISTAKE ANALYSIS -->
+<!-- ========================= -->
+
+{% if mistake_analysis %}
+
+<div class="question">
+
+    <h2>🧠 Mistake Analysis</h2>
+
+    <p>
+        Here are the questions that need more attention:
+    </p>
+
+    {% for mistake in mistake_analysis %}
+
+    <div class="achievement">
+
+        <h3>
+            ❌ {{ mistake.question | upper }}
+        </h3>
+
+        <p>
+            <b>Topic:</b>
+            {{ mistake.topic }}
+        </p>
+
+        <p>
+            <b>Concept:</b>
+            {{ mistake.concept }}
+        </p>
+
+        <p>
+            <b>Your answer:</b>
+            {{ mistake.user_answer }}
+        </p>
+
+        <p>
+            <b>Correct answer:</b>
+            {{ mistake.correct_answer }}
+        </p>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
+
+    <!-- AI ANALYSIS -->
+
+    <h2>🤖 AI Learning Gap Analysis</h2>
+
+    {% if gap_explanations %}
+
+        {% for topic, explanation in gap_explanations.items() %}
+
+            <div class="question">
+
+                <h3>🎯 {{ topic }}</h3>
+
+                <p>
+                    {{ explanation }}
+                </p>
+
+                <p>
+                    <b>Recommended action:</b>
+                    Learn → Practice → Retest
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="question">
+
+            <h3>🎉 No major learning gap detected!</h3>
+
+            <p>
+                Your diagnostic performance is strong
+                across the tested topics.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- MISTAKE ANALYSIS -->
+
+    <h2>🔍 Mistake Analysis</h2>
+
+    {% if mistake_analysis %}
+
+        {% for mistake in mistake_analysis %}
+
+            <div class="question">
+
+                <h3>❌ {{ mistake.topic }}</h3>
+
+                <p>
+                    <b>Possible concept gap:</b>
+                    {{ mistake.concept }}
+                </p>
+
+                <p>
+                    <b>Your answer:</b>
+                    {{ mistake.user_answer }}
+                </p>
+
+                <p>
+                    <b>Correct answer:</b>
+                    {{ mistake.correct_answer }}
+                </p>
+
+                <p>
+                    🤖 Review
+                    <b>{{ mistake.concept }}</b>
+                    before taking the retest.
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="question">
+
+            <h3>🎉 No mistakes detected!</h3>
+
+            <p>
+                You answered all diagnostic questions correctly.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- WEAK TOPICS -->
+
+    {% if weak_topics %}
+
+        <div class="question">
+
+            <h2>📌 Topics You Need to Improve</h2>
+
+            <ul class="weak-topics">
+
+                {% for topic in weak_topics %}
+
+                    <li>📌 {{ topic }}</li>
+
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+
+        <!-- PERSONALIZED PLAN -->
+
+        <h2>🤖 Personalized Learning Plan</h2>
+
+        {% for topic in weak_topics %}
+
+            <div class="question">
+
+                {% if topic == "Variables and Data Types" %}
+
+                    <h3>📦 {{ topic }}</h3>
+
+                    <p>
+                        <b>Learn:</b>
+                        Variables, int, float, string and boolean.
+                    </p>
+
+                    <p>
+                        <b>Practice:</b>
+                        Create variables and identify their data types.
+                    </p>
+
+                    <p>
+                        <b>Goal:</b>
+                        Understand Python data types.
+                    </p>
+
+
+                {% elif topic == "Conditional Statements" %}
+
+                    <h3>🔀 {{ topic }}</h3>
+
+                    <p>
+                        <b>Learn:</b>
+                        if, elif and else statements.
+                    </p>
+
+                    <p>
+                        <b>Practice:</b>
+                        Solve simple decision-making problems.
+                    </p>
+
+                    <p>
+                        <b>Goal:</b>
+                        Use conditions to control program decisions.
+                    </p>
+
+
+                {% elif topic == "Loops" %}
+
+                    <h3>🔄 {{ topic }}</h3>
+
+                    <p>
+                        <b>Learn:</b>
+                        for loops, while loops and range().
+                    </p>
+
+                    <p>
+                        <b>Practice:</b>
+                        Write programs that repeat tasks.
+                    </p>
+
+                    <p>
+                        <b>Goal:</b>
+                        Understand how and when to use loops.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+
+        <div style="margin-top: 25px;">
+
+    <a href="/practice" class="button">
+        💻 Start Recommended Practice
+    </a>
+
+    <a href="/dashboard"
+       class="button secondary-button">
+        📊 View Dashboard
+    </a>
+
+</div>
+
+
+        <!-- VIDEOS -->
+
+        <h2 style="margin-top: 35px;">
+            🎥 Recommended Learning Videos
+        </h2>
+
+        <div class="video-list">
+
+            {% for video in recommended_videos %}
+
+                <div class="video-card">
+
+                    <p>{{ video.title }}</p>
+
+                    <a href="{{ video.url }}"
+                       target="_blank"
+                       class="button">
+
+                        ▶ Watch Video
+
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+        <div class="question">
+
+            <h3>🎉 Excellent Work!</h3>
+
+            <p>
+                You answered all questions correctly.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    <br>
+
+
+    <div style="margin-top: 30px;">
+
+    <a href="/practice" class="button">
+        💻 Start Practice
+    </a>
+
+    <a href="/dashboard" class="button secondary-button">
+        📊 View Dashboard
+    </a>
+
+</div>
+
+<div style="margin-top: 20px;">
+
+    <div style="margin-top: 30px;">
+
+    <h2>📚 Continue Your Learning</h2>
+
+    <p style="margin: 15px 0; color: #94a3b8;">
+        Follow the learning path to improve your weak topics.
+    </p>
+
+    <a href="/practice" class="button">
+        📝 Practice Questions
+    </a>
+
+    <a href="/retest" class="button">
+        🔄 Take Retest
+    </a>
+
+    <a href="/dashboard" class="button">
+        📊 View Dashboard
+    </a>
+
+    <br><br>
+
+    <a href="/quiz" class="button secondary-button">
+        🔁 Try Diagnostic Test Again
+    </a>
+    <!-- ========================= -->
+<!-- LEARNING JOURNEY -->
+<!-- ========================= -->
+
+<div class="question">
+
+    <h2>🧭 Your Learning Journey</h2>
+
+    <p>Follow these steps to improve your weak topics:</p>
+
+    <div class="achievement">
+        <h3>1️⃣ 📝 Diagnostic Test</h3>
+        <p>Identify your current knowledge level.</p>
+    </div>
+
+    <div class="achievement">
+        <h3>2️⃣ 🤖 AI Gap Analysis</h3>
+        <p>Understand which topics need improvement.</p>
+    </div>
+
+    <div class="achievement">
+        <h3>3️⃣ 🎥 Learn</h3>
+        <p>Watch the recommended learning videos.</p>
+    </div>
+
+    <div class="achievement">
+        <h3>4️⃣ 💻 Practice</h3>
+        <p>Practice questions based on your weak topics.</p>
+
+        <a href="/practice" class="button">
+            Start Practice
+        </a>
+    </div>
+
+    <div class="achievement">
+        <h3>5️⃣ 🔄 Retest</h3>
+        <p>Check whether your understanding has improved.</p>
+
+        <a href="/retest" class="button">
+            Take Retest
+        </a>
+    </div>
+
+    <div class="achievement">
+        <h3>6️⃣ 🏆 Dashboard</h3>
+        <p>Track your scores, streak, XP and learning progress.</p>
+
+        <a href="/dashboard" class="button">
+            View Dashboard
+        </a>
+    </div>
+
+</div>
+
+    <a href="/" class="button secondary-button">
+        🏠 Back to Home
+    </a>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

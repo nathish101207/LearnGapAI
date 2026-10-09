@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Retest - LearnGapAI</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            min-height: 100vh;
+
+            color: white;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #172b55,
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    #35164d,
+                    transparent 35%
+                ),
+                #050811;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+
+            height: 70px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.08);
+
+            background:
+                rgba(5,8,17,0.75);
+
+            backdrop-filter: blur(12px);
+        }
+
+
+        .logo {
+
+            font-size: 25px;
+
+            font-weight: 800;
+        }
+
+
+        .logo span {
+
+            color: #6da8ff;
+        }
+
+
+        .dashboard {
+
+            color: #a9c9ff;
+
+            text-decoration: none;
+
+            padding:
+                9px 18px;
+
+            border:
+                1px solid
+                rgba(109,168,255,0.3);
+
+            border-radius: 20px;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .container {
+
+            width: 90%;
+
+            max-width: 900px;
+
+            margin:
+                45px auto 70px;
+        }
+
+
+        /* =========================
+           PAGE HEADER
+        ========================= */
+
+        .page-header {
+
+            text-align: center;
+
+            margin-bottom: 35px;
+        }
+
+
+        .icon {
+
+            width: 75px;
+
+            height: 75px;
+
+            margin:
+                0 auto 18px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 32px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4f8cff,
+                    #8057e8
+                );
+
+            box-shadow:
+                0 0 35px
+                rgba(79,140,255,0.3);
+        }
+
+
+        .page-header h1 {
+
+            font-size: 40px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .page-header p {
+
+            color: #9da8bd;
+
+            font-size: 15px;
+        }
+
+
+        /* =========================
+           TOPIC CARD
+        ========================= */
+
+        .topic-card {
+
+            text-align: center;
+
+            padding: 22px;
+
+            margin-bottom: 25px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(18,24,42,0.8);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.08);
+        }
+
+
+        .topic-label {
+
+            color: #7f8ba3;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .topic-name {
+
+            font-size: 23px;
+
+            font-weight: 700;
+        }
+
+
+        /* =========================
+           QUESTION CARD
+        ========================= */
+
+        .question-card {
+
+            padding: 28px;
+
+            margin-bottom: 20px;
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(24,31,53,0.95),
+                    rgba(12,17,31,0.95)
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,0.08);
+
+            transition: 0.25s;
+        }
+
+
+        .question-card:hover {
+
+            border-color:
+                rgba(109,168,255,0.25);
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        .question-number {
+
+            display: inline-block;
+
+            color: #8fb7ff;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 14px;
+        }
+
+
+        .question-card h2 {
+
+            font-size: 19px;
+
+            line-height: 1.5;
+
+            margin-bottom: 22px;
+        }
+
+
+        /* =========================
+           OPTIONS
+        ========================= */
+
+        .options {
+
+            display: grid;
+
+            gap: 11px;
+        }
+
+
+        .option {
+
+            display: block;
+
+            cursor: pointer;
+        }
+
+
+        .option input {
+
+            display: none;
+        }
+
+
+        .option-box {
+
+            display: block;
+
+            padding: 15px 17px;
+
+            border-radius: 13px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.1);
+
+            background:
+                rgba(255,255,255,0.025);
+
+            color: #c8d1e1;
+
+            transition: 0.2s;
+        }
+
+
+        .option-box:hover {
+
+            background:
+                rgba(79,140,255,0.08);
+
+            border-color:
+                rgba(79,140,255,0.4);
+
+            color: white;
+        }
+
+
+        .option input:checked
+        + .option-box {
+
+            background:
+                rgba(79,140,255,0.16);
+
+            border-color:
+                #5d96ff;
+
+            color: white;
+
+            box-shadow:
+                0 0 0 1px
+                rgba(93,150,255,0.15);
+        }
+
+
+        /* =========================
+           TEXT INPUT
+        ========================= */
+
+        .text-answer {
+
+            width: 100%;
+
+            padding: 15px;
+
+            border-radius: 12px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.12);
+
+            background:
+                rgba(0,0,0,0.2);
+
+            color: white;
+
+            outline: none;
+
+            font-size: 15px;
+        }
+
+
+        .text-answer:focus {
+
+            border-color:
+                #5d96ff;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(93,150,255,0.1);
+        }
+
+
+        /* =========================
+           SUBMIT AREA
+        ========================= */
+
+        .submit-area {
+
+            text-align: center;
+
+            margin-top: 35px;
+        }
+
+
+        .submit-btn {
+
+            border: none;
+
+            cursor: pointer;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            padding:
+                15px 38px;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4f8cff,
+                    #7357e8
+                );
+
+            box-shadow:
+                0 10px 30px
+                rgba(79,140,255,0.25);
+
+            transition: 0.25s;
+        }
+
+
+        .submit-btn:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 14px 35px
+                rgba(79,140,255,0.35);
+        }
+
+
+        .hint {
+
+            color: #68758c;
+
+            font-size: 12px;
+
+            margin-top: 13px;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 650px) {
+
+            .container {
+
+                width: 94%;
+            }
+
+
+            .page-header h1 {
+
+                font-size: 32px;
+            }
+
+
+            .question-card {
+
+                padding: 21px;
+            }
+
+
+            .question-card h2 {
+
+                font-size: 17px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <div class="logo">
+        LearnGap<span>AI</span>
+    </div>
+
+
+    <a
+        href="/dashboard"
+        class="dashboard">
+
+        Dashboard
+
+    </a>
+
+</header>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="container">
+
+
+    <!-- PAGE HEADER -->
+
+    <section class="page-header">
+
+        <div class="icon">
+            🔄
+        </div>
+
+
+        <h1>
+            Retest
+        </h1>
+
+
+        <p>
+            Let's check how much you've improved.
+        </p>
+
+    </section>
+
+
+
+    {% if retest_questions %}
+
+
+        <!-- TOPIC -->
+
+        {% if retest_topic %}
+
+        <section class="topic-card">
+
+            <div class="topic-label">
+                Current Learning Topic
+            </div>
+
+
+            <div class="topic-name">
+                {{ retest_topic }}
+            </div>
+
+        </section>
+
+        {% endif %}
+
+
+
+        <!-- =========================
+             FORM
+        ========================= -->
+
+        <form
+            action="/retest-result"
+            method="POST">
+
+
+            {% for topic, questions
+               in retest_questions.items() %}
+
+
+                {% for question in questions %}
+
+                    {% set q_index = loop.index %}
+
+
+                    <div class="question-card">
+
+
+                        <div class="question-number">
+
+                            Question {{ q_index }}
+
+                        </div>
+
+
+                        <h2>
+
+                            {{ question.question }}
+
+                        </h2>
+
+
+
+                        {% if question.options %}
+
+
+                            <div class="options">
+
+
+                                {% for option
+                                   in question.options %}
+
+
+                                    <label class="option">
+
+
+                                        <input
+                                            type="radio"
+                                            name="r{{ q_index }}"
+                                            value="{{ option }}"
+                                            required>
+
+
+                                        <span
+                                            class="option-box">
+
+                                            {{ option }}
+
+                                        </span>
+
+
+                                    </label>
+
+
+                                {% endfor %}
+
+
+                            </div>
+
+
+                        {% else %}
+
+
+                            <input
+                                type="text"
+                                name="r{{ q_index }}"
+                                class="text-answer"
+                                placeholder="Type your answer"
+                                required>
+
+
+                        {% endif %}
+
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            {% endfor %}
+
+
+
+            <!-- SUBMIT -->
+
+            <div class="submit-area">
+
+
+                <button
+                    type="submit"
+                    class="submit-btn">
+
+                    Submit Retest →
+
+                </button>
+
+
+                <div class="hint">
+
+                    Make sure you answer all questions.
+
+                </div>
+
+
+            </div>
+
+
+        </form>
+
+
+    {% else %}
+
+
+        <!-- NO RETEST -->
+
+        <section class="topic-card">
+
+            <div
+                style="
+                    font-size:45px;
+                    margin-bottom:15px;
+                ">
+
+                🎉
+
+            </div>
+
+
+            <h2>
+                No Retest Available
+            </h2>
+
+
+            <p
+                style="
+                    color:#9da8bd;
+                    margin-top:10px;
+                ">
+
+                Complete the diagnostic test
+                first to identify a topic for retesting.
+
+            </p>
+
+
+            <br>
+
+
+            <a
+                href="/quiz"
+                class="dashboard">
+
+                Take Diagnostic Test
+
+            </a>
+
+        </section>
+
+
+    {% endif %}
+
+
+</main>
+
+
+</body>
+
+</html>
